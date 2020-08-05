@@ -7,9 +7,8 @@
 |||
 :-:|:-:
 一维椭圆型方程两点边值问题(有限差分方法)|elliptic_equation_1D.m
+二维Poisson方程Dirichlet问题(有限差分方法，5点格式)|poisson_2d.m
 
 ## TODO
-
-二维Poisson方程Dirichlet问题(有限差分方法，5点格式)
 
 抛物问题：向前(后)Euler差分格式，Crank-Nicolson格式，$\theta$-格式
