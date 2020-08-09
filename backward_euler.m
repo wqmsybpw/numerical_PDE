@@ -86,7 +86,7 @@ end
 function [U,U_all]=backward_euler_method(U_ini,P,k,N,h,M,uexact_td,rhs_td,type)
 U_old=U_ini;
 lambda=k/(h^2);
-if strcmp(type,'nonsymetric') %矩阵格式1 
+if strcmp(type,'nonsymetric') %矩阵格式1
     A=sparse(M+1,M+1);
     F=zeros(M+1,1);
     U_all=zeros(M+1,N);
@@ -108,21 +108,15 @@ else
     U_all=zeros(M-1,N);
     for n=1:N
         tn=n*k;
-        A(1,[1 2])=[1+2*lambda ];F(1,1)=feval(uexact_td,P(1),tn);
-        A(M-1,M-1)=1;F(M-1,1)=feval(uexact_td,P(M-1),tn);
-        for j=1:M-1
-            if j==1
-                A(j,[j,j+1])=[1+2*lambda,-lambda];
-                F(j,1)=U_old(j,1)+lambda*feval(uexact_td,P(j),tn)...
-                    +k*feval(rhs_td,P(j+1),tn);
-            elseif j==M-1
-                A(j,[j-1,j])=[-lambda,1+2*lambda];
-                F(j,1)=U_old(j,1)+lambda*feval(uexact_td,P(j+2),tn)...
-                    +k*feval(rhs_td,P(j+1),tn);
-            else
-                A(j,[j-1,j,j+1])=[-lambda,1+2*lambda,-lambda];
-                F(j,1)=U_old(j,1)+k*feval(rhs_td,P(j+1),tn);
-            end
+        A(1,[1,2])=[1+2*lambda,-lambda];
+        F(1,1)=U_old(1,1)+lambda*feval(uexact_td,P(1),tn)...
+            +k*feval(rhs_td,P(2),tn);
+        A(M-1,[M-2,M-1])=[-lambda,1+2*lambda];
+        F(M-1,1)=U_old(M-1,1)+lambda*feval(uexact_td,P(M+1),tn)...
+            +k*feval(rhs_td,P(M),tn);
+        for j=2:M-2
+            A(j,[j-1,j,j+1])=[-lambda,1+2*lambda,-lambda];
+            F(j,1)=U_old(j,1)+k*feval(rhs_td,P(j+1),tn);
         end
         U=A\F;
         U_old=U;
