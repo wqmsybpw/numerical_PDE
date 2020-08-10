@@ -10,7 +10,5 @@
 二维Poisson方程Dirichlet问题(有限差分方法，5点格式)|poisson_2d.m
 向前Euler差分格式|forward_euler.m
 向后Euler差分格式|backward_euler.m
-
-## TODO
-
-抛物问题：Crank-Nicolson格式，$\theta$-格式
+Crank-Nicolson格式|crank_nicolson.m
+$\theta$-格式|theta_method.m
